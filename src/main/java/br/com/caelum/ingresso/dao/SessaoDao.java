@@ -15,7 +15,6 @@ import br.com.caelum.ingresso.model.Sessao;
 
 /**
  * Classe DAO para as operacoes de Sessao no banco.
- * 
  * @author Julivan Meridius
  */
 @Repository

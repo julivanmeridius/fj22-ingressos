@@ -1,5 +1,7 @@
 package br.com.caelum.ingresso.validacao;
 
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -28,11 +30,11 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueNaoDevePermitirSessaoNoMesmoHorario() {
 
-		Filme filme = new Filme();
+		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		filme.setDuracao(120);
 		LocalTime horario = LocalTime.now();
 
-		Sala sala = new Sala("");
+		Sala sala = new Sala("Eldorado - IMAX", BigDecimal.ONE);
 		List<Sessao> sessoes = Arrays.asList(new Sessao(horario, filme, sala));
 
 		Sessao sessao = new Sessao(horario, filme, sala);
@@ -45,12 +47,11 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueNaoDevePermitirSessoesTerminandoDentroDoHorarioDeUmaSessaoJaExistente() {
 
-		@SuppressWarnings("deprecation")
-		Filme filme = new Filme();
+		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		filme.setDuracao(120);
 		LocalTime horario = LocalTime.now();
 
-		Sala sala = new Sala("");
+		Sala sala = new Sala("Eldorado - IMAX", BigDecimal.ONE);
 		List<Sessao> sessoes = Arrays.asList(new Sessao(horario, filme, sala));
 
 		Sessao sessao = new Sessao(horario.plusHours(1), filme, sala);
@@ -62,11 +63,10 @@ public class GerenciadorDeSessaoTest {
 	@Test
 	public void garanteQueNaoDevePermitirSessoesIniciandoDentroDoHorarioDeUmaSessaoJaExistente() {
 
-		@SuppressWarnings("deprecation")
-		Filme filme = new Filme();
+		Filme filme = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		filme.setDuracao(120);
 		LocalTime horario = LocalTime.now();
-		Sala sala = new Sala("");
+		Sala sala = new Sala("Eldorado - IMAX", BigDecimal.ONE);
 
 		List<Sessao> sessoes = Arrays.asList(new Sessao(horario, filme, sala));
 
@@ -76,15 +76,13 @@ public class GerenciadorDeSessaoTest {
 
 	@Test
 	public void garanteQueDevePermitirUmaInsercaoEntreDoisFilmes() {
-		Sala sala = new Sala("");
-		@SuppressWarnings("deprecation")
-		Filme filme1 = new Filme();
+		Sala sala = new Sala("Eldorado - IMAX", BigDecimal.ONE);
+		Filme filme1 = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		filme1.setDuracao(90);
 		LocalTime dezHoras = LocalTime.parse("10:00:00");
 		Sessao sessaoDasDez = new Sessao(dezHoras, filme1, sala);
 
-		@SuppressWarnings("deprecation")
-		Filme filme2 = new Filme();
+		Filme filme2 = new Filme("Rogue One", Duration.ofMinutes(120), "SCI-FI", BigDecimal.ONE);
 		filme2.setDuracao(120);
 		LocalTime dezoitoHoras = LocalTime.parse("18:00:00");
 		Sessao sessaoDasDezoito = new Sessao(dezoitoHoras, filme2, sala);

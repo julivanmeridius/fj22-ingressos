@@ -3,6 +3,7 @@
  */
 package br.com.caelum.ingresso.model;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -13,8 +14,8 @@ import javax.persistence.ManyToOne;
 
 /**
  * Classe Entidade Sessao
- * 
- * @author lab7079
+ * @author 	Julivan Meridius
+ * @since	22/06/2017
  */
 @Entity
 public class Sessao {
@@ -22,7 +23,6 @@ public class Sessao {
 	@Id
 	@GeneratedValue
 	private Integer id;
-
 	private LocalTime horario;
 
 	@ManyToOne
@@ -30,6 +30,22 @@ public class Sessao {
 
 	@ManyToOne
 	private Sala sala;
+	
+	private BigDecimal preco;
+
+	/**
+	 * @return the preco
+	 */
+	public BigDecimal getPreco() {
+		return preco;
+	}
+
+	/**
+	 * @param preco the preco to set
+	 */
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
 
 	// deprecated HIbernate Only
 	public Sessao() {
@@ -39,6 +55,7 @@ public class Sessao {
 		this.horario = horario;
 		this.setFilme(filme);
 		this.sala = sala;
+		this.preco = sala.getPreco().add(filme.getPreco());
 	}
 
 	/**
