@@ -6,16 +6,23 @@ package br.com.caelum.ingresso.model;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * Classe Entidade Sessao
- * @author 	Julivan Meridius
- * @since	22/06/2017
+ * 
+ * @author Julivan Meridius
+ * @since 22/06/2017
  */
 @Entity
 public class Sessao {
@@ -28,9 +35,19 @@ public class Sessao {
 	@ManyToOne
 	private Filme filme;
 
+	@OneToMany(mappedBy = "sessao", fetch = FetchType.EAGER)
+	private Set<Ingresso> ingressos = new HashSet<>();
+
+	/**
+	 * @param ingressos the ingressos to set
+	 */
+	public void setIngressos(Set<Ingresso> ingressos) {
+		this.ingressos = ingressos;
+	}
+
 	@ManyToOne
 	private Sala sala;
-	
+
 	private BigDecimal preco;
 
 	/**
@@ -41,7 +58,8 @@ public class Sessao {
 	}
 
 	/**
-	 * @param preco the preco to set
+	 * @param preco
+	 *            the preco to set
 	 */
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
@@ -56,6 +74,10 @@ public class Sessao {
 		this.setFilme(filme);
 		this.sala = sala;
 		this.preco = sala.getPreco().add(filme.getPreco());
+	}
+
+	public Map<String, List<Lugar>> getMapaDeLugares() {
+		return sala.getMapaDeLugares();
 	}
 
 	/**
@@ -120,5 +142,18 @@ public class Sessao {
 
 	public LocalTime getHorarioTermino() {
 		return this.horario.plus(filme.getDuracao().toMinutes(), ChronoUnit.MINUTES);
+	}
+
+	// -- Metodo auxiliar para verificar se o assento esta disponivel para
+	// compra
+	public boolean isDisponivel(Lugar lugar) {
+		return ingressos.stream().map(Ingresso::getLugar).noneMatch(l -> l.equals(lugar));
+	}
+
+	/**
+	 * @return the ingressos
+	 */
+	public Set<Ingresso> getIngressos() {
+		return ingressos;
 	}
 }

@@ -16,7 +16,8 @@ import br.com.caelum.ingresso.model.Sessao;
 
 /**
  * Classe DAO para as operacoes de Sessao no banco.
- * @author Julivan Meridius
+ * @author 	Julivan Meridius
+ * @since	23/06/2017
  */
 @Repository
 public class SessaoDao {
@@ -36,5 +37,9 @@ public class SessaoDao {
 	public List<Sessao> buscaSessoesDoFilme(Filme filme) {
 		return manager.createQuery("select s from Sessao s where s.filme = :filme", Sessao.class)
 				.setParameter("filme", filme).getResultList();
+	}
+
+	public Sessao findOne(Integer id) {
+		return manager.find(Sessao.class, id);
 	}
 }

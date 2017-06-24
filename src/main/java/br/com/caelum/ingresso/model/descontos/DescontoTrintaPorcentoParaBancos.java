@@ -24,4 +24,9 @@ public class DescontoTrintaPorcentoParaBancos implements Desconto {
 	private BigDecimal trintaPorcentoSobre(BigDecimal precoOriginal) {
 		return precoOriginal.multiply(percentualDesconto);
 	}
+
+	@Override
+	public String getDescricao() {
+		return "Desconto Banco";
+	}
 }
